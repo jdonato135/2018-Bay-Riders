@@ -19,15 +19,18 @@ On Lyft’s website that have documented each bike ride monthly and it is free t
 •	End Station Longitude
 •	Bike ID
 •	User Type (Subscriber or Customer)
+
 At first glance I didn’t think that Lyft was giving up that much information but with some manipulation I was able to see a little deeper. Initially I was interested at the difference between subscribers and customers but I realized I would be able to dig a little deeper. Since we were given duration in seconds I thought I would be able to expand that into minutes and hours to make the duration more visually appealing. Lyft also gave the start latitude and longitude along with the end latitude and longitude which I thought that I would be able to find the distance traveled between stations.  
 
-Assessing & Cleaning Data
+# Assessing & Cleaning Data
+
 As I mentioned, Lyft has saved each bike ride per month in separate files starting in 2017. For this analysis I downloaded each monthly file for the year of 2018 to look into my initial thoughts. Once downloaded I saved the files into one folder so that they would be easily accessible. From there I created a loop to import the data in to Python and place it into a Pandas dataframe since cleaning the data would be easily done in a dataframe.
 Once imported I looked at the info of the data and the data head to have an idea of what I was looking at. The data info gave me a lot of information, which is below for a reference:
+
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 1863721 entries, 0 to 1863720
 Data columns (total 14 columns):
- #   Column                   Non-Null Count    Dtype  
+    Column                   Non-Null Count    Dtype  
 ---  ------                   --------------    -----  
  0   duration_sec             1863721 non-null  int64  
  1   start_time               1863721 non-null  object 
@@ -47,7 +50,9 @@ dtypes: float64(6), int64(2), object(6)
 memory usage: 199.1+ MB
 
 The info function told us that there were 1,863,721 records or bike rides during 2018 in San Francisco. I also noticed that the start and end times were objects rather than date and time format. I also saw that there was missing information for the start and end stations but I think the reason for this is that the bike was not picked up from a station and could have been picked up from a street corner.
- From there I ran a describe function on the data to see if I would be able to find any other insight but it did not give me much to go by. I also checked if there were ant duplicates within the data since there was not a unique identifier for each ride. Once I ran the duplicated function, I was delighted to see that there were no duplicates in the data. But given there were no duplicates with over a million rides I was interested, to see how many bike id’s were duplicated. When looking at the value counts there are various bike ids with counts over 1000 but I can conclude that while some bikes have over 1000 rides that does not mean they were duplicated. 
+
+From there I ran a describe function on the data to see if I would be able to find any other insight but it did not give me much to go by. I also checked if there were ant duplicates within the data since there was not a unique identifier for each ride. Once I ran the duplicated function, I was delighted to see that there were no duplicates in the data. But given there were no duplicates with over a million rides I was interested, to see how many bike id’s were duplicated. When looking at the value counts there are various bike ids with counts over 1000 but I can conclude that while some bikes have over 1000 rides that does not mean they were duplicated. 
+
 The main thought I had was how many riders were customers and how many were subscribers. To my surprise, subscribers out weighted the customers 1.5 million to 280,000 thousand. This means that there are far less one time customers than daily users. 
 Once I was done assessing my data I put a list together of what I needed to do to clean my data. My cleaning steps are as follows:
 1.	Start and end time should be changed to date and time format
